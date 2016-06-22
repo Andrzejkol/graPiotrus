@@ -3,18 +3,21 @@ body{}
 .player{}
 .player-name{text-align: center;}
 .player-cards{text-align: center;}
-.player-cards .card{display:inline-block; width:100px; position: relative; margin:2px; height:150px; border:1px solid gray; box-shadow: 7px 7px 6px -4px #ccc;}
-.player-cards .card:before{content:''; position: absolute; top:0; left:0; right:0; bottom:0;}
+.player-cards .card{transition:all 1s ease-in-out;display:inline-block; width:100px; position: relative; margin:2px; height:150px; border:1px solid gray; box-shadow: 7px 7px 6px -4px #ccc;}
+.player-cards .card:before{content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 1;}
+.player-cards .card:after{opacity:1; transition:all 1s ease-in-out;content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 2; background:url(bg.jpg) center center no-repeat; background-size:cover;}
 .player-cards .card_A:before{background:#00bcd4;}
 .player-cards .card_B:before{background:#ff9800;}
 .player-cards .card_C:before{background:#d1111d;}
-.player-cards .card_D:before{background:#ddd111;}
+.player-cards .card_D:before{background:#fff887;}
 .player-cards .card_E:before{background:#dddd11;}
-.player-cards .card_F:before{background:#dd11dd;}
-.player-cards .card_G:before{background:#1d1d1d;}
-.player-cards .card_H:before{background:#123456;}
+.player-cards .card_F:before{background:#bbb;}
+.player-cards .card_G:before{background:#0087ff;}
+.player-cards .card_H:before{background:#00468c;}
 .player-cards .card_I:before{background:#654321;}
 .player-cards .card_J:before{background:#660066;}
 .player-cards .card_K:before{background:#ff00ff;}
 .player-cards .card_L:before{background:#00ff00;}
-.player-cards .card_P:before{background:#dd1111;}
+.player-cards .card_P:before{background:#000;}
+.player-cards .card.para:after {opacity:0;}
+.player-cards .card.para.hide_card{display:none;}
