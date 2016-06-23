@@ -1,8 +1,8 @@
 body{}
 
-.player{}
-.player-name{text-align: center;}
-.player-cards{text-align: center;}
+.player{text-align:center; margin-bottom:15px;}
+.player-name{text-align: center; display: inline-block;}
+.player-cards{text-align: center; display: inline-block;}
 .player-cards .card{transition:all 1s ease-in-out;display:inline-block; width:100px; position: relative; margin:2px; height:150px; border:1px solid gray; box-shadow: 7px 7px 6px -4px #ccc;}
 .player-cards .card:before{content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 1;}
 .player-cards .card:after{opacity:1; transition:all 1s ease-in-out;content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 2; background:url(bg.jpg) center center no-repeat; background-size:cover;}
@@ -21,3 +21,7 @@ body{}
 .player-cards .card_P:before{background:#000;}
 .player-cards .card.para:after {opacity:0;}
 .player-cards .card.para.hide_card{display:none;}
+
+.selectcard { background:#bbb;}
+.selectcard .card {cursor:pointer;}
+.selectcard .card:hover{box-shadow: 7px 7px 6px -4px #f30404;}
