@@ -181,16 +181,16 @@ function redukujPary() {
         });
 
         /* przesunięcie aktualnego gracza gdy ten niema już kart */
-        if (player_now === 1 && player1.length === 0) {
+        if (player_now === 1 && player2.length === 0) {
             player_now = 2;
         }
-        if (player_now === 2 && player2.length === 0) {
+        if (player_now === 2 && player3.length === 0) {
             player_now = 3;
         }
-        if (player_now === 3 && player3.length === 0) {
+        if (player_now === 3 && player4.length === 0) {
             player_now = 4;
         }
-        if (player_now === 4 && player4.length === 0) {
+        if (player_now === 4 && player1.length === 0) {
             player_now = 1;
         }
     }, 2000);
@@ -300,11 +300,12 @@ $(document).ready(function () {
         sprawdzWynik();
         przerysujkarty();
         gra();
+        console.log(player1.length+' | '+player2.length+' | '+player3.length+' | '+player4.length+' | ');
 
     });
 
     redukujPary();
     sprawdzWynik();
     gra();
-
+console.log(player1.length+' | '+player2.length+' | '+player3.length+' | '+player4.length+' | ');
 });
