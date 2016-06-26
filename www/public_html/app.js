@@ -193,6 +193,8 @@ function redukujPary() {
         if (player_now === 4 && player1.length === 0) {
             player_now = 1;
         }
+        
+          gra();
     }, 2000);
 
 }
@@ -273,22 +275,22 @@ $(document).ready(function () {
     $('body').on('click', '.selectcard .player-cards .card', function () {
 
         /* kliknięcie w karte = przepisanie jej do poprzedniego gracza*/
-        if (player_now === 1) {
+        if (player_now === 1 && player1.length>0) {
             player1.push(player2[$(this).attr('data-number')]);
             player2.splice(parseInt($(this).attr('data-number')), 1);
             player1[player1.length - 1].wybrana = 0;
             player_now = 2;
-        } else if (player_now === 2) {
+        } else if (player_now === 2 && player2.length>0) {
             player2.push(player3[$(this).attr('data-number')]);
             player3.splice(parseInt($(this).attr('data-number')), 1);
             player2[player2.length - 1].wybrana = 0;
             player_now = 3;
-        } else if (player_now === 3) {
+        } else if (player_now === 3 && player3.length>0) {
             player3.push(player4[$(this).attr('data-number')]);
             player4.splice(parseInt($(this).attr('data-number')), 1);
             player3[player3.length - 1].wybrana = 0;
             player_now = 4;
-        } else if (player_now === 4) {
+        } else if (player_now === 4 && player4.length>0) {
             player4.push(player1[$(this).attr('data-number')]);
             player1.splice(parseInt($(this).attr('data-number')), 1);
             player4[player4.length - 1].wybrana = 0;
@@ -299,13 +301,14 @@ $(document).ready(function () {
         redukujPary();
         sprawdzWynik();
         przerysujkarty();
-        gra();
-        console.log(player1.length+' | '+player2.length+' | '+player3.length+' | '+player4.length+' | ');
+      
+        console.log(player_now+' -> '+player1.length+' | '+player2.length+' | '+player3.length+' | '+player4.length+' | ');
 
     });
 
     redukujPary();
     sprawdzWynik();
-    gra();
-console.log(player1.length+' | '+player2.length+' | '+player3.length+' | '+player4.length+' | ');
+    
+    console.log(player_now+' -> '+player1.length+' | '+player2.length+' | '+player3.length+' | '+player4.length+' | ');
+
 });
