@@ -5,7 +5,7 @@ body{}
 .player-cards{text-align: center; display: inline-block;}
 .player-cards .card{transition:all 1s ease-in-out;display:inline-block; width:100px; position: relative; margin:2px; height:150px; border:1px solid gray; box-shadow: 7px 7px 6px -4px #ccc;}
 .player-cards .card:before{content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 1;}
-.player-cards .card:after{opacity:1; transition:all 1s ease-in-out;content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 2; background:url(bg.jpg) center center no-repeat; background-size:cover;}
+.player-cards .card:after{opacity:0; transition:all 1s ease-in-out;content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 2; background:url(bg.jpg) center center no-repeat; background-size:cover;}
 .player-cards .card_A:before{background:#00bcd4;}
 .player-cards .card_B:before{background:#ff9800;}
 .player-cards .card_C:before{background:#d1111d;}
