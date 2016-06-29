@@ -276,6 +276,8 @@ $(document).ready(function () {
 
         /* kliknięcie w karte = przepisanie jej do poprzedniego gracza*/
         if (player_now === 1 && player1.length>0) {
+            /* TODO: if   */
+            
             player1.push(player2[$(this).attr('data-number')]);
             player2.splice(parseInt($(this).attr('data-number')), 1);
             player1[player1.length - 1].wybrana = 0;
