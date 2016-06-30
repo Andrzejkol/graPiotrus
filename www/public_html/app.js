@@ -1,3 +1,4 @@
+/* talia kart */
 var zestawkart = [
     {symbol: 'A', wybrana: 0},
     {symbol: 'A', wybrana: 0},
@@ -37,6 +38,7 @@ var players_in_game = 4;
 var player_now = 1;
 var player_win = 0;
 var nums, randomNums;
+var enemy = 4;
 
 var log_player1, log_player2, log_player3, log_player4;
 
@@ -180,6 +182,7 @@ function redukujPary() {
             $(this).addClass('hide_card');
         });
 
+
         /* przesunięcie aktualnego gracza gdy ten niema już kart */
         if (player_now === 1 && player2.length === 0) {
             player_now = 2;
@@ -193,8 +196,54 @@ function redukujPary() {
         if (player_now === 4 && player1.length === 0) {
             player_now = 1;
         }
-        
-          gra();
+
+        /* przesunięcie wroga aktualnego gracza ze względu na brak któregoś gracza */
+        if (player_now === 1) {
+            if (player2.length > 0) {
+                enemy = 2;
+            } else
+            if (player3.length > 0) {
+                enemy = 3;
+            } else
+            if (player4.length > 0) {
+                enemy = 4;
+            }
+        }
+        if (player_now === 2) {
+
+            if (player3.length > 0) {
+                enemy = 3;
+            } else
+            if (player4.length > 0) {
+                enemy = 4;
+            } else
+            if (player1.length > 0) {
+                enemy = 1;
+            }
+        }
+        if (player_now === 3) {
+            if (player4.length > 0) {
+                enemy = 4;
+            } else
+            if (player1.length > 0) {
+                enemy = 1;
+            } else
+            if (player2.length > 0) {
+                enemy = 2;
+            }
+        }
+        if (player_now === 4) {
+            if (player1.length > 0) {
+                enemy = 1;
+            } else
+            if (player2.length > 0) {
+                enemy = 2;
+            } else
+            if (player3.length > 0) {
+                enemy = 3;
+            }
+        }
+        gra();
     }, 2000);
 
 }
@@ -226,8 +275,9 @@ function przerysujkarty() {
 
 function gra() {
 
-
+    $('.selectedcard').removeClass('selectedcard');
     /* ustawianie gracza od którego pobierana jest teraz karta */
+
     if (player_now === 1) {
         $('.selectcard').removeClass('selectcard');
         $('#player2').addClass('selectcard');
@@ -242,6 +292,7 @@ function gra() {
         $('#player1').addClass('selectcard');
     }
 
+    console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
 
 
 }
@@ -273,44 +324,122 @@ $(document).ready(function () {
 
     });
     $('body').on('click', '.selectcard .player-cards .card', function () {
-
+        $('.selectcard').addClass('selectedcard');
+        $('.selectcard').removeClass('selectcard');
         /* kliknięcie w karte = przepisanie jej do poprzedniego gracza*/
-        if (player_now === 1 && player1.length>0) {
-            /* TODO: if   */
-            
-            player1.push(player2[$(this).attr('data-number')]);
-            player2.splice(parseInt($(this).attr('data-number')), 1);
-            player1[player1.length - 1].wybrana = 0;
-            player_now = 2;
-        } else if (player_now === 2 && player2.length>0) {
-            player2.push(player3[$(this).attr('data-number')]);
-            player3.splice(parseInt($(this).attr('data-number')), 1);
-            player2[player2.length - 1].wybrana = 0;
-            player_now = 3;
-        } else if (player_now === 3 && player3.length>0) {
-            player3.push(player4[$(this).attr('data-number')]);
-            player4.splice(parseInt($(this).attr('data-number')), 1);
-            player3[player3.length - 1].wybrana = 0;
-            player_now = 4;
-        } else if (player_now === 4 && player4.length>0) {
-            player4.push(player1[$(this).attr('data-number')]);
-            player1.splice(parseInt($(this).attr('data-number')), 1);
-            player4[player4.length - 1].wybrana = 0;
-            player_now = 1;
+        if (player_now === 1) {
+            switch (enemy) {
+                case 2:
+                {
+                    player1.push(player2[$(this).attr('data-number')]);
+                    player2.splice(parseInt($(this).attr('data-number')), 1);
+                    player1[player1.length - 1].wybrana = 0;
+                    break;
+                }
+                case 3:
+                {
+                    player1.push(player3[$(this).attr('data-number')]);
+                    player3.splice(parseInt($(this).attr('data-number')), 1);
+                    player1[player1.length - 1].wybrana = 0;
+                    break;
+                }
+                case 4:
+                {
+                    player1.push(player4[$(this).attr('data-number')]);
+                    player4.splice(parseInt($(this).attr('data-number')), 1);
+                    player1[player1.length - 1].wybrana = 0;
+                    break;
+                }
+            }
+
+        }
+        if (player_now === 2) {
+            switch (enemy) {
+                case 3:
+                {
+                    player2.push(player3[$(this).attr('data-number')]);
+                    player3.splice(parseInt($(this).attr('data-number')), 1);
+                    player2[player2.length - 1].wybrana = 0;
+                    break;
+                }
+                case 4:
+                {
+                    player2.push(player4[$(this).attr('data-number')]);
+                    player4.splice(parseInt($(this).attr('data-number')), 1);
+                    player2[player2.length - 1].wybrana = 0;
+                    break;
+                }
+                case 1:
+                {
+                    player2.push(player1[$(this).attr('data-number')]);
+                    player1.splice(parseInt($(this).attr('data-number')), 1);
+                    player2[player2.length - 1].wybrana = 0;
+                    break;
+                }
+            }
+        }
+        if (player_now === 3) {
+            switch (enemy) {
+                case 4:
+                {
+                    player3.push(player4[$(this).attr('data-number')]);
+                    player4.splice(parseInt($(this).attr('data-number')), 1);
+                    player3[player3.length - 1].wybrana = 0;
+                    break;
+                }
+                case 1:
+                {
+                    player3.push(player1[$(this).attr('data-number')]);
+                    player1.splice(parseInt($(this).attr('data-number')), 1);
+                    player3[player3.length - 1].wybrana = 0;
+                    break;
+                }
+                case 2:
+                {
+                    player3.push(player2[$(this).attr('data-number')]);
+                    player2.splice(parseInt($(this).attr('data-number')), 1);
+                    player3[player3.length - 1].wybrana = 0;
+                    break;
+                }
+            }
         }
 
-
+        if (player_now === 4) {
+            switch (enemy) {
+                case 1:
+                {
+                    player4.push(player1[$(this).attr('data-number')]);
+                    player1.splice(parseInt($(this).attr('data-number')), 1);
+                    player4[player4.length - 1].wybrana = 0;
+                    break;
+                }
+                case 2:
+                {
+                    player4.push(player2[$(this).attr('data-number')]);
+                    player2.splice(parseInt($(this).attr('data-number')), 1);
+                    player4[player4.length - 1].wybrana = 0;
+                    break;
+                }
+                case 3:
+                {
+                    player4.push(player3[$(this).attr('data-number')]);
+                    player3.splice(parseInt($(this).attr('data-number')), 1);
+                    player4[player4.length - 1].wybrana = 0;
+                    break;
+                }
+            }
+        }
         redukujPary();
         sprawdzWynik();
         przerysujkarty();
-      
-        console.log(player_now+' -> '+player1.length+' | '+player2.length+' | '+player3.length+' | '+player4.length+' | ');
+
 
     });
 
     redukujPary();
     sprawdzWynik();
-    
-    console.log(player_now+' -> '+player1.length+' | '+player2.length+' | '+player3.length+' | '+player4.length+' | ');
+    przerysujkarty();
+
+    console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
 
 });
