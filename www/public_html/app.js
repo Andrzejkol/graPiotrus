@@ -26,14 +26,17 @@ var zestawkart = [
     {symbol: 'L', wybrana: 0},
     {symbol: 'P', wybrana: 0}];
 
+/* karty graczy */
 var player1 = [];
 var player2 = [];
 var player3 = [];
 var player4 = [];
+/* imiona graczy */
 var player1_name = "gracz 1",
         player2_name = "gracz 2",
         player3_name = "gracz 3",
         player4_name = "gracz 4";
+/* zminne pomocnicze*/
 var players_in_game = 4;
 var player_now = 1;
 var player_lose = 0;
@@ -43,7 +46,7 @@ var game_stop = false;
 var log_player1, log_player2, log_player3, log_player4;
 
 function inicjuj(array) {
-    /* losowa zmiana kolejności liczb */
+    /* losowa zmiana kolejności kart w tali */
     var i = array.length,
             j = 0,
             temp,
@@ -79,7 +82,29 @@ function sprawdzWynik() {
         player_lose = 4;
     }
 
+    /* gdy został jeden gracz a inni niemają kart*/
+    if (player1.length > 0 && player2.length == 0 && player3.length == 0 && player4.length == 0)
+    {
+        alertmsg = 'Gracz ' + player1_name + ' przegrał.';
+        player_lose = 1;
+    }
+    if (player2.length > 0 && player1.length == 0 && player3.length == 0 && player4.length == 0)
+    {
+        alertmsg = 'Gracz ' + player2_name + ' przegrał.';
+        player_lose = 2;
+    }
+    if (player3.length > 0 && player2.length == 0 && player1.length == 0 && player4.length == 0)
+    {
+        alertmsg = 'Gracz ' + player3_name + ' przegrał.';
+        player_lose = 3;
+    }
+    if (player4.length > 0 && player2.length == 0 && player3.length == 0 && player1.length == 0)
+    {
+        alertmsg = 'Gracz ' + player4_name + ' przegrał.';
+        player_lose = 4;
+    }
 
+    /* dodanie klasy gdy ktoś przegra */
     switch (player_lose) {
         case 1:
             {
@@ -109,13 +134,11 @@ function sprawdzWynik() {
         game_stop = true;
         alert(alertmsg);
     }
-    /* gdy ktoś został sam w grze */
 
-    /*  */
 }
 
 function redukujPary() {
-    /* sprawdzenie par po losowaniu */
+    /* sprawdzenie par po losowaniu  */
     setTimeout(function () {
         for (i = 0; i < player1.length; i++) {
             for (j = 0; j < player1.length; j++) {
@@ -153,6 +176,7 @@ function redukujPary() {
                 }
             }
         }
+
 
         /* usunięcie par z tablicy kart graczy*/
         var pary;
@@ -203,29 +227,14 @@ function redukujPary() {
 
 
     }, 1000);
+
+
     setTimeout(function () {
 
-
-        /* ukrycie wybranej karty */
+        /* ukrycie par kart z animacją */
         $('.player-cards .para').each(function () {
             $(this).addClass('hide_card');
         });
-
-
-        /* przesunięcie aktualnego gracza gdy ten niema już kart */
-        /*   if (player_now === 1 && player2.length === 0) {
-         player_now = 2;
-         }
-         if (player_now === 2 && player3.length === 0) {
-         player_now = 3;
-         }
-         if (player_now === 3 && player4.length === 0) {
-         player_now = 4;
-         }
-         if (player_now === 4 && player1.length === 0) {
-         player_now = 1;
-         }*/
-
         /* przesunięcie wroga aktualnego gracza ze względu na brak któregoś gracza */
         if (player_now === 1) {
             if (player1.length === 0) {
@@ -284,7 +293,8 @@ function redukujPary() {
                 enemy = 3;
             }
         }
-        console.log(player_now + ' vs ' + enemy + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
+        /* sprawdzanie zmiennych wpisanie do logów */
+        //    console.log(player_now + ' vs ' + enemy + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
 
         gra();
     }, 2000);
@@ -321,7 +331,7 @@ function gra() {
 
 
     $('.selectedcard').removeClass('selectedcard');
-    /* ustawianie gracza od którego pobierana jest teraz karta */
+    /* ustawianie aktywnego wroga, od ktorego pobieramy karte */
     if (!game_stop) {
         if (enemy === 1) {
             $('.selectcard').removeClass('selectcard');
@@ -339,7 +349,6 @@ function gra() {
     } else {
         player_now = 0;
     }
-    // console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
     przerysujkarty();
 
 }
@@ -348,22 +357,11 @@ function gra() {
 
 $(document).ready(function () {
     var i, j;
+    /* indeksy talii kart i losowanie */
     nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
     randomNums = inicjuj(nums);
 
-
-    $('#hide_popup').click(function () {
-        player1_name = $('#player1name').text();
-        player2_name = $('#player2name').text();
-        player3_name = $('#player3name').text();
-        player4_name = $('#player4name').text();
-        $('#player1 .player-name h2').text(player1_name);
-        $('#player2 .player-name h2').text(player2_name);
-        $('#player3 .player-name h2').text(player3_name);
-        $('#player4 .player-name h2').text(player4_name);
-        $('#popup').hide();
-    });
-
+    /* wypełnienie tablic graczy po losowaniu kart*/
     for (i = 0; i < randomNums.length; i++) {
         if (i >= 0 && i <= 5) {
             player1.push(zestawkart[randomNums[i]]);
@@ -380,13 +378,30 @@ $(document).ready(function () {
         }
     }
 
-    $('body').on('click', '.selectcard .player-cards', function () {
+    /* Popup do wpisywania imion  - zamknięcie okienka */
+    $('#hide_popup').click(function () {
+        player1_name = $('#player1name').val();
+        player2_name = $('#player2name').val();
+        player3_name = $('#player3name').val();
+        player4_name = $('#player4name').val();
+        $('#player1 .player-name h2').text(player1_name);
+        $('#player2 .player-name h2').text(player2_name);
+        $('#player3 .player-name h2').text(player3_name);
+        $('#player4 .player-name h2').text(player4_name);
+        $('#popup').hide();
 
+        /* redukcja par i sprawdzenie wyniku po rozdaniu kart*/
+        redukujPary();
+        sprawdzWynik();
     });
+
+
+/* kliknięcie w karte - proces gry */
     $('body').on('click', '.selectcard .player-cards .card', function () {
         $('.selectcard').addClass('selectedcard');
         $('.selectcard').removeClass('selectcard');
         /* kliknięcie w karte = przepisanie jej do poprzedniego gracza*/
+        /* + przypisanie karty do poprzedniego gracza jeśli jeszcze gra */
         if (player_now === 1) {
             switch (enemy) {
                 case 2:
@@ -491,16 +506,11 @@ $(document).ready(function () {
             }
             player_now = 1;
         }
+    /* sprawdzenie i redukcja par po przeniesieniu karty do innego gracza */
         redukujPary();
-
-
         sprawdzWynik();
 
     });
 
-    redukujPary();
-
-    sprawdzWynik();
-    // console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
-
+   
 });

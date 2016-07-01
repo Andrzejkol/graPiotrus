@@ -2,10 +2,11 @@ body{}
 
 .player{text-align:center; margin-bottom:15px;}
 .player-name{text-align: center; display: inline-block; width: 100%;}
+.player-name h2 { margin: 5px;}
 .player-cards{text-align: center; display: inline-block;}
 .player-cards .card{transition:all 1s ease-in-out;display:inline-block; width:100px; position: relative; margin:2px; height:150px; border:1px solid gray; box-shadow: 7px 7px 6px -4px #ccc;}
 .player-cards .card:before{content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 1;}
-/* żeby było widać kolory kart trzeba ustawić poniższy opacity na 0*/
+/* żeby było widać kolory kart trzeba ustawić poniższy :after opacity na 0*/
 .player-cards .card:after{opacity:1; transition:all 1s ease-in-out;content:''; position: absolute; top:0; left:0; right:0; bottom:0; z-index: 2; background:url(bg.jpg) center center no-repeat; background-size:cover;}
 .player-cards .card_A:before{background:#00bcd4;}
 .player-cards .card_B:before{background:#ff9800;}
@@ -27,10 +28,12 @@ body{}
 .selectcard { background:#bbb;}
 .selectcard .card {cursor:pointer;}
 .selectcard .card:hover{box-shadow: 7px 7px 6px -4px #f30404;}
+/* kolor gdy gracz przegra */
 .player_lose { background:#f30404;}
+
 #popup {position:fixed; top:0px; bottom:0px; left:0px; right:0px; background: rgba(0,0,0,0.5); z-index: 999;}
 #popup_wrapp { position:absolute; top:50%; left:50%; transform: translateX(-50%) translateY(-50%); background: white; width:500px; height: 300px;}
-#popup_wrapp h2 {text-align: center; margin:10px 0px;}
+#popup_wrapp h2 {text-align: center; margin:10px 0px; }
 #popup_wrapp #hide_popup {display:inline-block; background:red; padding: 10px 20px;}
 #popup_wrapp .name-input{padding:5px 0px; text-align: center;}
-#popup_wrapp .button {text-align: center; margin-top:10px;}
+#popup_wrapp .button {text-align: center; margin-top:10px; cursor:pointer; text-transform: uppercase; color:white; font-weight: bold;}
