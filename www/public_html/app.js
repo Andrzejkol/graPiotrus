@@ -30,16 +30,16 @@ var player1 = [];
 var player2 = [];
 var player3 = [];
 var player4 = [];
-var player1_name,
-        player2_name,
-        player3_name,
-        player4_name;
+var player1_name = "gracz 1",
+        player2_name = "gracz 2",
+        player3_name = "gracz 3",
+        player4_name = "gracz 4";
 var players_in_game = 4;
 var player_now = 1;
-var player_win = 0;
+var player_lose = 0;
 var nums, randomNums;
 var enemy = 4;
-
+var game_stop = false;
 var log_player1, log_player2, log_player3, log_player4;
 
 function inicjuj(array) {
@@ -64,29 +64,56 @@ function sprawdzWynik() {
     /* gdy komuś został tylko piotruś*/
     if (player1.length === 1 && player1[0].symbol === 'P') {
         alertmsg = 'Gracz ' + player1_name + ' przegrał.';
-        player_win = 1;
+        player_lose = 1;
     } else
     if (player2.length === 1 && player2[0].symbol === 'P') {
         alertmsg = 'Gracz ' + player2_name + ' przegrał.';
-        player_win = 2;
+        player_lose = 2;
     } else
     if (player3.length === 1 && player3[0].symbol === 'P') {
         alertmsg = 'Gracz ' + player3_name + ' przegrał.';
-        player_win = 3;
+        player_lose = 3;
     } else
     if (player4.length === 1 && player4[0].symbol === 'P') {
         alertmsg = 'Gracz ' + player4_name + ' przegrał.';
-        player_win = 4;
+        player_lose = 4;
     }
 
-    if (alertmsg.length > 0) {
+
+    switch (player_lose) {
+        case 1:
+            {
+                $('#player1').addClass('player_lose');
+            }
+            break;
+        case 2:
+            {
+                $('#player2').addClass('player_lose');
+
+            }
+            break;
+        case 3:
+            {
+                $('#player3').addClass('player_lose');
+
+            }
+            break;
+        case 4:
+            {
+                $('#player4').addClass('player_lose');
+
+            }
+            break;
+    }
+    if (alertmsg !== '') {
+        game_stop = true;
         alert(alertmsg);
     }
     /* gdy ktoś został sam w grze */
 
     /*  */
-
 }
+
 function redukujPary() {
     /* sprawdzenie par po losowaniu */
     setTimeout(function () {
@@ -136,6 +163,7 @@ function redukujPary() {
             for (i = 0; i < player1.length; i++) {
                 if (player1[i].wybrana === 1) {
                     pary = true;
+
                     player1.splice(i, 1);
                 }
             }
@@ -177,6 +205,7 @@ function redukujPary() {
     }, 1000);
     setTimeout(function () {
 
+
         /* ukrycie wybranej karty */
         $('.player-cards .para').each(function () {
             $(this).addClass('hide_card');
@@ -184,21 +213,24 @@ function redukujPary() {
 
 
         /* przesunięcie aktualnego gracza gdy ten niema już kart */
-        if (player_now === 1 && player2.length === 0) {
-            player_now = 2;
-        }
-        if (player_now === 2 && player3.length === 0) {
-            player_now = 3;
-        }
-        if (player_now === 3 && player4.length === 0) {
-            player_now = 4;
-        }
-        if (player_now === 4 && player1.length === 0) {
-            player_now = 1;
-        }
+        /*   if (player_now === 1 && player2.length === 0) {
+         player_now = 2;
+         }
+         if (player_now === 2 && player3.length === 0) {
+         player_now = 3;
+         }
+         if (player_now === 3 && player4.length === 0) {
+         player_now = 4;
+         }
+         if (player_now === 4 && player1.length === 0) {
+         player_now = 1;
+         }*/
 
         /* przesunięcie wroga aktualnego gracza ze względu na brak któregoś gracza */
         if (player_now === 1) {
+            if (player1.length === 0) {
+                player_now = 2;
+            } else
             if (player2.length > 0) {
                 enemy = 2;
             } else
@@ -210,7 +242,9 @@ function redukujPary() {
             }
         }
         if (player_now === 2) {
-
+            if (player2.length === 0) {
+                player_now = 3;
+            } else
             if (player3.length > 0) {
                 enemy = 3;
             } else
@@ -221,7 +255,11 @@ function redukujPary() {
                 enemy = 1;
             }
         }
+
         if (player_now === 3) {
+            if (player3.length === 0) {
+                player_now = 4;
+            } else
             if (player4.length > 0) {
                 enemy = 4;
             } else
@@ -233,6 +271,9 @@ function redukujPary() {
             }
         }
         if (player_now === 4) {
+            if (player4.length === 0) {
+                player_now = 1;
+            } else
             if (player1.length > 0) {
                 enemy = 1;
             } else
@@ -243,6 +284,8 @@ function redukujPary() {
                 enemy = 3;
             }
         }
+        console.log(player_now + ' vs ' + enemy + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
+
         gra();
     }, 2000);
 
@@ -270,30 +313,34 @@ function przerysujkarty() {
         $('#player4 .player-cards').append('<div class="card card_' + player4[i].symbol + '" data-player="4" data-number="' + i + '" data-symbol="' + player4[i].symbol + '"></div>');
     }
 
+    // console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
 
 }
 
 function gra() {
 
+
     $('.selectedcard').removeClass('selectedcard');
     /* ustawianie gracza od którego pobierana jest teraz karta */
-
-    if (player_now === 1) {
-        $('.selectcard').removeClass('selectcard');
-        $('#player2').addClass('selectcard');
-    } else if (player_now === 2) {
-        $('.selectcard').removeClass('selectcard');
-        $('#player3').addClass('selectcard');
-    } else if (player_now === 3) {
-        $('.selectcard').removeClass('selectcard');
-        $('#player4').addClass('selectcard');
-    } else if (player_now === 4) {
-        $('.selectcard').removeClass('selectcard');
-        $('#player1').addClass('selectcard');
+    if (!game_stop) {
+        if (enemy === 1) {
+            $('.selectcard').removeClass('selectcard');
+            $('#player1').addClass('selectcard');
+        } else if (enemy === 2) {
+            $('.selectcard').removeClass('selectcard');
+            $('#player2').addClass('selectcard');
+        } else if (enemy === 3) {
+            $('.selectcard').removeClass('selectcard');
+            $('#player3').addClass('selectcard');
+        } else if (enemy === 4) {
+            $('.selectcard').removeClass('selectcard');
+            $('#player4').addClass('selectcard');
+        }
+    } else {
+        player_now = 0;
     }
-
-    console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
-
+    // console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
+    przerysujkarty();
 
 }
 
@@ -303,6 +350,19 @@ $(document).ready(function () {
     var i, j;
     nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
     randomNums = inicjuj(nums);
+
+
+    $('#hide_popup').click(function () {
+        player1_name = $('#player1name').text();
+        player2_name = $('#player2name').text();
+        player3_name = $('#player3name').text();
+        player4_name = $('#player4name').text();
+        $('#player1 .player-name h2').text(player1_name);
+        $('#player2 .player-name h2').text(player2_name);
+        $('#player3 .player-name h2').text(player3_name);
+        $('#player4 .player-name h2').text(player4_name);
+        $('#popup').hide();
+    });
 
     for (i = 0; i < randomNums.length; i++) {
         if (i >= 0 && i <= 5) {
@@ -351,8 +411,8 @@ $(document).ready(function () {
                     break;
                 }
             }
-
-        }
+            player_now = 2;
+        } else
         if (player_now === 2) {
             switch (enemy) {
                 case 3:
@@ -377,7 +437,8 @@ $(document).ready(function () {
                     break;
                 }
             }
-        }
+            player_now = 3;
+        } else
         if (player_now === 3) {
             switch (enemy) {
                 case 4:
@@ -402,8 +463,8 @@ $(document).ready(function () {
                     break;
                 }
             }
-        }
-
+            player_now = 4;
+        } else
         if (player_now === 4) {
             switch (enemy) {
                 case 1:
@@ -428,18 +489,18 @@ $(document).ready(function () {
                     break;
                 }
             }
+            player_now = 1;
         }
         redukujPary();
-        sprawdzWynik();
-        przerysujkarty();
 
+
+        sprawdzWynik();
 
     });
 
     redukujPary();
-    sprawdzWynik();
-    przerysujkarty();
 
-    console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
+    sprawdzWynik();
+    // console.log(player_now + ' -> ' + player1.length + ' | ' + player2.length + ' | ' + player3.length + ' | ' + player4.length + ' | ');
 
 });
